@@ -1,0 +1,2 @@
+segm_idx,tablet_CDLI,view_desc,collection,mzl_label,train_label,bbox,relative_bbox
+61,P335598,Rev,train,110,4,"[755, 1542, 871, 1611]","[287, 311, 403, 380]"
