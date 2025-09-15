@@ -1,0 +1,52 @@
+paths:
+  images_root: ../data/images/cropped_images
+  csv_annot: ../data/annotations/all_crop_bbox_annotations.csv
+
+dataset:
+  class_allowlist_path: classes_top4.yaml
+  include_other_class: true
+  other_class_name: other
+
+model:
+  backbone: resnet50
+  use_imagenet_weights: true
+  anchor_sizes:               # pixels at 512 input
+    - [33, 41, 48]            # P2
+    - [45, 53, 57]            # P3
+    - [57, 83, 134]           # P4
+    - [134, 151, 226]         # P5
+  aspect_ratios:
+    - [0.5, 1.0, 2.0]
+    - [0.5, 1.0, 2.0]
+    - [0.5, 1.0, 2.0]
+    - [0.5, 1.0, 2.0]
+  score_thresh: 0.25
+  nms_thresh: 0.30
+  detections_per_img: 180
+
+train:
+  batch_size: 4   # try for 10
+  accum_steps: 6
+  epochs: 150
+  lr: 0.00015
+  weight_decay: 0.0005
+  num_workers: 4
+  freeze_backbone_epochs: 2
+  ckpt_dir: runs
+  save_every: 5       # epoch interval
+  keep_last_k: 3        # rotate old epoch files
+  save_best: true
+  best_metric: map50  # or val_loss?
+  early_stop: true
+  early_metric: map50 # or val_loss?
+  early_min_delta: 0.01
+  early_patience: 5
+
+eval:
+  do_map: true
+  map_iou: 0.5
+  map_every: 1
+  map_max_batches: 50
+  full_on_last: true
+  full_every: 5
+
